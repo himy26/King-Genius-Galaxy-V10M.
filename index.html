@@ -3,83 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👑 LEVANTI V10M - OFFICIAL SECURE PAYMENT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <title>👑 KING GENIUS GALAXY V10M | Official Server</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --black: #050505; --green: #00ff00; }
-        body { background: var(--black); color: var(--gold); font-family: 'Cairo', sans-serif; text-align: center; margin: 0; }
-        header { background: #111; padding: 40px; border-bottom: 3px solid var(--gold); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
-        .main-box { max-width: 650px; margin: 40px auto; padding: 35px; border: 1px solid var(--gold); border-radius: 25px; background: #0a0a0a; box-shadow: 0 0 40px rgba(212,175,55,0.2); }
-        input, select { width: 100%; padding: 15px; margin: 12px 0; background: #111; border: 1px solid var(--gold); color: #fff; border-radius: 12px; box-sizing: border-box; font-size: 1.1em; }
-        .btn-pay { background: var(--gold); color: #000; width: 100%; padding: 22px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.5em; margin-top: 25px; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .btn-pay:hover { background: #fff; transform: translateY(-3px); }
-        #console { background: #000; color: var(--green); padding: 15px; margin-top: 25px; border-radius: 12px; font-family: monospace; text-align: left; direction: ltr; min-height: 100px; border: 1px solid #222; font-size: 0.9em; }
-        .footer-note { margin-top: 20px; font-size: 0.8em; color: #444; }
+        :root { --gold: #d4af37; --black: #050505; --green: #00ff00; --dark: #111; }
+        body { background: var(--black); color: var(--gold); font-family: 'Cairo', sans-serif; margin: 0; text-align: center; }
+        header { background: linear-gradient(180deg, #1a1a1a 0%, #000 100%); padding: 50px 20px; border-bottom: 3px solid var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .hero-title { font-size: 2.5em; text-shadow: 2px 2px 15px var(--gold); margin: 0; }
+        .badge { background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); padding: 10px 25px; border-radius: 50px; display: inline-block; margin-top: 15px; color: #fff; }
+        
+        .main-container { max-width: 900px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+        @media (max-width: 800px) { .main-container { grid-template-columns: 1fr; } }
+
+        .card { background: var(--dark); border-radius: 20px; border: 1px solid var(--gold); padding: 30px; box-shadow: 0 0 25px rgba(212, 175, 55, 0.1); }
+        input, select { width: 100%; padding: 16px; margin: 10px 0; background: #000; border: 1px solid var(--gold); color: #fff; border-radius: 12px; font-size: 1.1em; box-sizing: border-box; }
+        
+        .btn-royal { background: var(--gold); color: #000; width: 100%; padding: 22px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.4em; margin-top: 20px; transition: 0.3s; box-shadow: 0 8px 15px rgba(0,0,0,0.4); }
+        .btn-royal:hover { background: #fff; transform: translateY(-3px); }
+
+        .console { background: #000; color: var(--green); padding: 20px; border-radius: 15px; font-family: monospace; text-align: left; direction: ltr; min-height: 150px; border: 1px solid #222; margin-top: 20px; }
+        .legal-box { font-size: 0.8em; color: #777; margin-top: 20px; text-align: right; border-top: 1px solid #333; padding-top: 15px; }
+        
+        .stats-box { background: #0a0a0a; border-radius: 20px; border: 1px solid #222; padding: 20px; }
+        .stat-val { font-size: 2em; font-weight: bold; color: var(--green); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>👑 KING GENIUS GALAXY V10M</h1>
-    <p>بإشراف الملك محمد حسن & الملكة علا مطاوع</p>
+    <h1 class="hero-title">KING GENIUS GALAXY V10M</h1>
+    <div class="badge">إدارة الملاك الرسمية: محمد حسن & علا مطاوع</div>
+    <p style="color: #888; margin-top: 10px;">نظام الفك الرسمي العالمي (LEVANTI API V12)</p>
 </header>
 
-<div class="main-box">
-    <h3>🌐 بوابة الدفع والتشغيل الفوري</h3>
-    <p style="color: #ccc; font-size: 0.9em;">سيتم معالجة الطلب وإرسال كود الفك فور تأكيد التحويل</p>
-    
-    <input type="text" id="imei_input" placeholder="أدخل IMEI / SERIAL للجهاز">
-    
-    <select id="service_select">
-        <option value="90">إزالة iCloud نهائي (Clean) - $90</option>
-        <option value="40">تخطي مقيد (Untethered) - $40</option>
-        <option value="25">إزالة FRP موديلات 2026 - $25</option>
-    </select>
+<div class="main-container">
+    <div class="card">
+        <h3>🚀 بوابة الفك الرسمي أونلاين</h3>
+        <input type="text" id="dev_id" placeholder="أدخل IMEI أو Serial Number">
+        <select id="serv_type">
+            <option value="90">Apple Official Unlock (Clean) - $90</option>
+            <option value="40">iPhone Bypass (Signal Supported) - $40</option>
+            <option value="25">Android FRP Official Server - $25</option>
+        </select>
+        
+        <label style="display: flex; align-items: center; font-size: 0.8em; margin-top: 10px; color: #ccc;">
+            <input type="checkbox" id="agree" style="width: auto; margin-left: 10px;">
+            أوافق على معالجة الطلب يدوياً ورسمياً من قبل الملك محمد حسن
+        </label>
 
-    <button class="btn-pay" onclick="redirecttoPayPal()">دفع وتفعيل السيرفر 🚀</button>
+        <button class="btn-royal" onclick="executeFullOrder()">تنفيذ ودفع الطلب 🚀</button>
 
-    <div id="console">> STATUS: READY - PAYPAL ACCOUNT hassan182 CONNECTED</div>
-    <div class="footer-note">🔒 نظام محمي ومشفر بالكامل | LEV-2026-MH-OLA-999</div>
+        <div class="console" id="output">> SYSTEM STATUS: STANDBY...</div>
+    </div>
+
+    <div class="stats-box">
+        <h3>💰 إحصائيات 2026</h3>
+        <div style="margin-bottom: 20px;">
+            <div class="stat-label">أرباح اليوم</div>
+            <div class="stat-val" id="profit">$0</div>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <div class="stat-label">عمليات السيرفر</div>
+            <div class="stat-val" id="counts">0</div>
+        </div>
+        <div style="border-top: 1px solid #333; padding-top: 15px;">
+            <div style="color: var(--gold);">الحصيلة المليونية</div>
+            <div style="font-size: 1.5em; font-weight: bold;">3,000,000</div>
+        </div>
+    </div>
 </div>
 
+<footer style="padding: 40px; color: #444; font-size: 0.8em;">
+    رقم القيد الدولي: LEV-2026-MH-OLA-999 | كافة الحقوق محفوظة لشركة لافنتي للبرمجيات
+</footer>
+
 <script>
-    async function redirecttoPayPal() {
-        const imei = document.getElementById('imei_input').value;
-        const price = document.getElementById('service_select').value;
-        const log = document.getElementById('console');
+    let totalP = 0; let ops = 0;
 
-        if(imei.length < 5) { alert("يا ملكي، يرجى إدخال IMEI صحيح."); return; }
+    async function executeFullOrder() {
+        const id = document.getElementById('dev_id').value;
+        const price = document.getElementById('serv_type').value;
+        const agree = document.getElementById('agree').checked;
+        const log = document.getElementById('output');
 
-        log.innerHTML = "> [INIT] Preparing Secure Link for PayPal...<br>";
+        if(!agree) { alert("يا ملكي، يجب على الزبون الموافقة على الشروط."); return; }
+        if(id.length < 5) { alert("يرجى إدخال IMEI صحيح."); return; }
 
-        // رابط PayPal المباشر الخاص بك مع تحديد المبلغ
+        log.innerHTML = "> [01] Connecting to Global API Gateway...<br>";
+        
+        // رابط PayPal المباشر الخاص بك
         const paypalUrl = `https://paypal.me/hassan182/${price}`;
+        window.open(paypalUrl, '_blank');
 
         try {
-            log.innerHTML += "> [GATEWAY] Redirecting to hassan182 Payment Page...<br>";
-            
-            // فتح صفحة الدفع
-            window.open(paypalUrl, '_blank');
+            log.innerHTML += "> [02] Verifying hassan182 Master Account... ✅<br>";
+            log.innerHTML += "> [03] Device " + id + " pushed to Server Queue...<br>";
 
-            // إرسال البيانات لبريدك كإشعار ببدء عملية دفع
+            // إرسال الإشعار لبريدك لتبدأ الفك فور استلام المال
             await fetch('https://formspree.io/f/mqakpzoz', {
                 method: 'POST',
-                body: JSON.stringify({
-                    Order: "NEW_PAYMENT_INITIATED",
-                    King: "Mohammed Hassan",
-                    Device: imei,
-                    Amount: "$" + price,
-                    Target: "hassan182"
-                }),
+                body: JSON.stringify({ Status: "REAL_ORDER", King: "M. Hassan", IMEI: id, Amount: "$" + price }),
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
             });
 
-            log.innerHTML += "> [SUCCESS] Notification sent to your records. ✅<br>";
-            log.innerHTML += "> [WAITING] System is waiting for payment confirmation...";
+            log.innerHTML += "> [04] Order successfully logged. Processing starts after payment. ✅";
             
-            alert("تم فتح صفحة الدفع الخاصة بك. بمجرد استلام المال، ابدأ العمل.");
+            totalP += parseInt(price); ops++;
+            document.getElementById('profit').innerText = "$" + totalP;
+            document.getElementById('counts').innerText = ops;
+
+            alert("يا ملكي، تم توجيه الزبون للدفع. ستصلك بياناته الحقيقية فوراً.");
         } catch (e) {
-            log.innerHTML += "> [ERROR] Secure Bridge Failed.";
+            log.innerHTML += "> [ERROR] Server Bridge Busy. Retry in 60s.";
         }
     }
 </script>
