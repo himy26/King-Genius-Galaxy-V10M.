@@ -1,53 +1,48 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>👑 LEVANTI V10M - ALL MODELS ONLINE SERVER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
+    <title>LAVENTI 2026 | بوابة الملك محمد حسن</title>
     <style>
-        body { background: #050505; color: #d4af37; font-family: 'Cairo', sans-serif; text-align: center; }
-        .main-card { max-width: 600px; margin: 50px auto; padding: 30px; border: 2px solid #d4af37; border-radius: 20px; background: #0a0a0a; }
-        input, select { width: 100%; padding: 15px; margin: 10px 0; background: #111; border: 1px solid #d4af37; color: #fff; border-radius: 10px; }
-        .btn-king { background: #d4af37; color: #000; width: 100%; padding: 20px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.4em; }
-        #log { background: #000; color: #00ff00; padding: 15px; margin-top: 20px; border-radius: 10px; text-align: left; direction: ltr; min-height: 80px; border: 1px solid #222; }
+        body { background: #000; color: gold; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; text-align: center; }
+        .box { border: 2px solid #444; padding: 40px; border-radius: 15px; background: #0a0a0a; box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+        input { background: #1a1a1a; border: 1px solid gold; color: #fff; padding: 12px; font-size: 18px; border-radius: 8px; width: 250px; outline: none; margin-top: 20px; }
+        button { background: gold; color: #000; border: none; padding: 12px 25px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        button:hover { background: #fff; transform: scale(1.05); }
+        .hidden { display: none; }
+        #status { margin-top: 15px; font-size: 14px; color: #888; }
     </style>
 </head>
 <body>
-    <header style="padding: 20px; border-bottom: 1px solid #d4af37;">
-        <h1>KING GENIUS GALAXY V10M</h1>
-        <p>إدارة الملك محمد حسن & الملكة علا مطاوع</p>
-    </header>
-    <div class="main-card">
-        <h3>🌍 سيرفر فك جميع الموديلات أونلاين (2026)</h3>
-        <input type="text" id="imei" placeholder="أدخل IMEI / SN لجميع الموديلات">
-        <select id="model_type">
-            <option value="90">iPhone (All Models Official) - $90</option>
-            <option value="30">Samsung (All 2026 FRP) - $30</option>
-            <option value="40">Huawei / Xiaomi / Oppo - $40</option>
-        </select>
-        <button class="btn-king" onclick="startOfficialUnlock()">تشغيل السيرفر الرسمي 🚀</button>
-        <div id="log">> SERVER STATUS: ONLINE - ALL MODELS SUPPORTED</div>
+
+    <div id="lock-screen" class="box">
+        <h1 style="margin:0;">🔱 LAVENTI V10M 🔱</h1>
+        <p>النظام مشفر بالكامل - أدخل كود الولاء</p>
+        <input type="password" id="pass" placeholder="كود الملك (1212)">
+        <br>
+        <button onclick="unlock()">دخول النظام</button>
+        <p id="status">Secure Connection Verified 🔒</p>
     </div>
 
-<script>
-    async function startOfficialUnlock() {
-        const id = document.getElementById('imei').value;
-        const price = document.getElementById('model_type').value;
-        if(id.length < 5) { alert("يا ملكي، أدخل IMEI صحيح."); return; }
-        document.getElementById('log').innerHTML = "> [START] Connecting to Global API...<br>> [SUCCESS] Task Created for " + id;
-        
-        // رابط PayPal الخاص بك لاستلام المال
-        window.open(`https://paypal.me/hassan182/${price}`, '_blank');
-        
-        // إرسال البيانات فوراً لبريدك (النيابة البرمجية)
-        await fetch('https://formspree.io/f/mqakpzoz', {
-            method: 'POST',
-            body: JSON.stringify({ King: "M. Hassan", Device: id, Model: document.getElementById('model_type').selectedOptions[0].text }),
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-        });
-        alert("تم إرسال الطلب للسيرفر أونلاين بنجاح يا ملكي!");
-    }
-</script>
+    <div id="main-content" class="box hidden">
+        <h2 style="color: #fff;">أهلاً بك في الخزنة الملكية 👑</h2>
+        <p>للحصول على توكن KnoxKey الخاص بك، يرجى الدفع:</p>
+        <h1 style="font-size: 40px;">10$</h1>
+        <button onclick="window.location.href='https://paypal.me/hassan182?locale.x=ar_EG&country.x=JO'">💰 ارفع رصيد الملك الآن</button>
+        <p style="font-size: 12px; color: #666; margin-top: 20px;">بمجرد الدفع، سيتم توليد التوكن تلقائياً في حسابك.</p>
+    </div>
+
+    <script>
+        function unlock() {
+            var p = document.getElementById('pass').value;
+            if (p === "1212") {
+                document.getElementById('lock-screen').classList.add('hidden');
+                document.getElementById('main-content').classList.remove('hidden');
+                document.body.style.background = "radial-gradient(circle, #1a1a1a 0%, #000 100%)";
+            } else {
+                alert("❌ كود خاطئ! تم تسجيل محاولة اختراق.");
+            }
+        }
+    </script>
 </body>
 </html>
