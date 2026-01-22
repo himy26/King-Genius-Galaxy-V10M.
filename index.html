@@ -5,105 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LAVENTI PRESTIGE | الملك محمد حسن</title>
     <style>
-        :root { --gold: #ffd700; --dark: #050505; --accent: #111; }
+        :root { --gold: #ffd700; --dark: #050505; }
         body { background: var(--dark); color: var(--gold); font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; text-align: center; }
-        .royal-box { background: #0a0a0a; border: 2px solid #1a1a1a; padding: 35px; border-radius: 30px; width: 100%; max-width: 500px; box-shadow: 0 0 50px rgba(255, 215, 0, 0.1); animation: fadeIn 0.8s ease; }
-        .srv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
-        .srv-item { background: var(--accent); border: 1px solid #333; padding: 20px; border-radius: 15px; cursor: pointer; transition: 0.3s; }
-        .srv-item.active { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); border-bottom: 3px solid var(--gold); }
-        input { width: 100%; background: var(--accent); border: 1px solid #333; color: #fff; padding: 18px; border-radius: 12px; font-size: 18px; text-align: center; margin-bottom: 20px; outline: none; box-sizing: border-box; }
-        input:focus { border-color: var(--gold); }
-        .btn-main { background: linear-gradient(90deg, #ffd700, #b8860b); color: #000; border: none; padding: 20px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.4s; }
-        .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 20px var(--gold); }
-        
-        /* قفل الملك الأمني */
-        .admin-section { margin-top: 35px; border-top: 1px solid #1a1a1a; padding-top: 20px; }
-        .btn-king-lock { background: transparent; color: #222; border: 1px dashed #222; padding: 10px; font-size: 11px; cursor: pointer; width: 100%; border-radius: 8px; transition: 0.3s; }
-        .btn-king-lock:hover { color: var(--gold); border-color: var(--gold); background: rgba(255, 215, 0, 0.02); }
-
-        #status-area { display: none; margin-top: 25px; }
-        .progress-track { width: 100%; background: #222; height: 10px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
-        .bar-fill { width: 0%; height: 100%; background: var(--gold); transition: 0.4s; }
-        .badge { background: #111; color: #0f0; padding: 5px 15px; border-radius: 50px; font-size: 12px; border: 1px solid #0f0; display: inline-block; margin-bottom: 15px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .royal-card { background: #0a0a0a; border: 2px solid #1a1a1a; padding: 30px; border-radius: 30px; width: 100%; max-width: 500px; box-shadow: 0 0 50px rgba(255, 215, 0, 0.1); }
+        .srv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .srv-item { background: #111; border: 1px solid #333; padding: 15px; border-radius: 15px; cursor: pointer; transition: 0.3s; }
+        .srv-item.active { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
+        select, input { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; text-align: center; margin-bottom: 15px; outline: none; appearance: none; }
+        .btn-main { background: linear-gradient(90deg, #ffd700, #b8860b); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.4s; }
+        #status { display: none; margin-top: 20px; }
+        .bar { width: 100%; background: #222; height: 10px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .fill { width: 0%; height: 100%; background: var(--gold); transition: 0.4s; }
+        .king-lock { margin-top: 30px; border-top: 1px solid #1a1a1a; padding-top: 15px; }
+        .btn-king { background: transparent; color: #222; border: 1px dashed #222; padding: 8px; font-size: 11px; cursor: pointer; width: 100%; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-<div class="royal-box">
-    <div class="badge">● سـيـرفـر V10M Ultra نـشـط</div>
-    <h1>🔱 LAVENTI 🔱</h1>
-    <p style="color: #666; font-size: 14px;">إدارة الملك محمد حسن</p>
+<div class="royal-card">
+    <h1 style="margin:0;">🔱 LAVENTI 🔱</h1>
+    <p style="color: #666; font-size: 13px;">إدارة الملك محمد حسن</p>
 
     <div class="srv-grid">
-        <div class="srv-item" onclick="selectService('FRP Android', 10, this)">
-            <b>Android FRP</b><br><small>10$</small>
-        </div>
-        <div class="srv-item" onclick="selectService('iPhone iCloud', 50, this)">
-            <b>iPhone Service</b><br><small>50$</small>
-        </div>
+        <div class="srv-item" onclick="sel('FRP Android', 10, this)"><b>FRP Unlocking</b><br>10$</div>
+        <div class="srv-item" onclick="sel('iPhone Service', 50, this)"><b>iPhone Services</b><br>50$</div>
     </div>
 
-    <input type="text" id="imei-num" placeholder="أدخل رقم الـ IMEI هنا" maxlength="15">
+    <select id="model-list">
+        <option value="">-- اختر موديل الجهاز --</option>
+        <optgroup label="Samsung S-Series (Tokens)">
+            <option value="S24 Ultra/S24+">Samsung S24 Ultra / S24+</option>
+            <option value="S23 Ultra/S23">Samsung S23 Series</option>
+            <option value="S22/S21 Series">Samsung S22 / S21 Series</option>
+        </optgroup>
+        <optgroup label="Samsung A & Z Series">
+            <option value="A54/A34/A14">Samsung A54 / A34 / A14</option>
+            <option value="Z Fold/Flip 5-6">Samsung Z Fold / Flip 5 & 6</option>
+        </optgroup>
+        <optgroup label="iPhone (All Models)">
+            <option value="iPhone 15/14/13">iPhone 13 / 14 / 15 Series</option>
+            <option value="iPhone 11/12/X">iPhone X / 11 / 12 Series</option>
+        </optgroup>
+        <optgroup label="Xiaomi & Others">
+            <option value="Xiaomi/Redmi/Poco">Xiaomi / Redmi / Poco</option>
+            <option value="Other Android">موديلات أخرى / Other</option>
+        </optgroup>
+    </select>
+
+    <input type="text" id="imei" placeholder="أدخل رقم الـ IMEI (15 رقم)" maxlength="15">
     
-    <button class="btn-main" id="pay-btn" onclick="execute(false)">تفعيل الربط والسحب 🚀</button>
+    <button class="btn-main" id="pay-btn" onclick="go(false)">بدء الربط والسحب 🚀</button>
 
-    <div id="status-area">
-        <div id="status-msg" style="color:#0f0; font-size: 14px; font-weight: bold;">جاري معالجة البيانات...</div>
-        <div class="progress-track"><div class="bar-fill" id="fill"></div></div>
+    <div id="status">
+        <div id="msg" style="color:#0f0; font-size: 14px;">📡 جارٍ الاتصال بسيرفر V10M...</div>
+        <div class="bar"><div class="fill" id="fill"></div></div>
     </div>
 
-    <div class="admin-section">
-        <button class="btn-king-lock" onclick="execute(true)">🔱 دخول المالك (مؤمن برمز PIN)</button>
+    <div class="king-lock">
+        <button class="btn-king" onclick="go(true)">🔱 تفعيل ملكي (PIN Required)</button>
     </div>
 </div>
 
 <script>
-    let serviceName = ""; let servicePrice = 0;
-    const SECRET_PIN = "2026"; // الرمز الخاص بك يا ملكي
+    let srv = ""; let prc = 0;
+    const PIN = "2026";
 
-    function selectService(name, price, element) {
-        serviceName = name; servicePrice = price;
+    function sel(n, p, e) {
+        srv = n; prc = p;
         document.querySelectorAll('.srv-item').forEach(i => i.classList.remove('active'));
-        element.classList.add('active');
+        e.classList.add('active');
     }
 
-    function execute(isKingMode) {
-        const imei = document.getElementById('imei-num').value;
-        if (!serviceName || imei.length < 5) { alert("⚠️ يا ملكي، اختر الخدمة وأدخل IMEI"); return; }
+    function go(isKing) {
+        const imei = document.getElementById('imei').value;
+        const model = document.getElementById('model-list').value;
+        if (!srv || imei.length < 5 || !model) { alert("⚠️ يرجى اختيار الخدمة، الموديل، وإدخال الـ IMEI"); return; }
 
-        if (isKingMode) {
-            const userInput = prompt("أدخل الرمز الملكي للوصول السريع:");
-            if (userInput !== SECRET_PIN) {
-                alert("❌ عذراً، الرمز خاطئ. لا يمكن التفعيل بدون إذن الملك.");
-                return;
-            }
+        if (isKing) {
+            if (prompt("أدخل الرمز الملكي:") !== PIN) { alert("❌ خطأ!"); return; }
         }
 
-        document.getElementById('status-area').style.display = 'block';
+        document.getElementById('status').style.display = 'block';
         document.getElementById('pay-btn').style.display = 'none';
-        document.querySelector('.admin-section').style.display = 'none';
 
-        let width = 0;
-        const process = setInterval(() => {
-            width += Math.random() * 20;
-            if (width > 100) width = 100;
-            document.getElementById('fill').style.width = width + '%';
-
-            if (width >= 100) {
-                clearInterval(process);
-                if (isKingMode) {
-                    document.getElementById('status-msg').innerText = "✅ تم التفعيل الملكي المباشر!";
-                    alert("أبشر يا ملك حسن! تم تسجيل الجهاز " + imei + " في السيرفر بنجاح مجاناً.");
+        let w = 0;
+        const t = setInterval(() => {
+            w += 10; document.getElementById('fill').style.width = w + '%';
+            if (w >= 100) {
+                clearInterval(t);
+                if (isKing) {
+                    alert("✨ تم التفعيل المجاني لـ " + model + " IMEI: " + imei);
                     location.reload();
                 } else {
-                    document.getElementById('status-msg').innerText = "✅ جاري الانتقال للدفع...";
-                    setTimeout(() => {
-                        window.location.href = `https://paypal.me/hassan182/${servicePrice}?note=IMEI:${imei}_Service:${serviceName}`;
-                    }, 1000);
+                    window.location.href = `https://paypal.me/hassan182/${prc}?note=Model:${model}_IMEI:${imei}`;
                 }
             }
-        }, 500);
+        }, 400);
     }
 </script>
 </body>
