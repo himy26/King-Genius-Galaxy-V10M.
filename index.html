@@ -3,86 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAVENTI SERVICES | مركز الملك محمد حسن</title>
+    <title>LAVENTI PRO | مركز الملك محمد حسن</title>
     <style>
-        body { background: #050505; color: gold; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; text-align: center; }
+        body { background: #050505; color: gold; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; text-align: center; }
         .container { background: #0a0a0a; border: 2px solid #1a1a1a; padding: 25px; border-radius: 20px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.1); width: 100%; max-width: 550px; }
         .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .service-card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; transition: 0.3s; cursor: pointer; }
-        .service-card:hover { border-color: gold; transform: translateY(-3px); }
+        .service-card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
         .service-card.active { border-color: gold; background: #1a1500; }
-        .imei-box { margin: 20px 0; }
         input { width: 100%; background: #111; border: 1px solid #444; color: #fff; padding: 15px; font-size: 18px; border-radius: 10px; text-align: center; outline: none; box-sizing: border-box; }
-        input:focus { border-color: gold; box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-        .price-tag { font-size: 24px; font-weight: bold; color: #fff; margin: 10px 0; }
-        .btn-pay { background: linear-gradient(45deg, #ffd700, #ffae00); color: #000; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
-        .btn-pay:hover { background: #fff; box-shadow: 0 0 20px gold; }
-        .badge { background: #222; color: #0f0; padding: 5px 15px; border-radius: 50px; font-size: 12px; border: 1px solid #0f0; display: inline-block; margin-bottom: 15px; }
+        .btn-pay { background: gold; color: #000; border: none; padding: 18px; font-size: 18px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
+        #status-area { display: none; margin-top: 20px; }
+        .bar { width: 100%; background: #222; height: 10px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .fill { width: 0%; height: 100%; background: gold; transition: width 0.4s; }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <div class="badge">● خادم لافنتي V10M جاهز للعمل</div>
-        <h1 style="margin:0; font-size: 28px;">🔱 LAVENTI PRO SERVICES 🔱</h1>
-        <p style="color: #888; font-size: 14px;">اختر الخدمة وأدخل بيانات الجهاز</p>
-
+        <h1>🔱 LAVENTI PRO V10M 🔱</h1>
         <div class="service-grid">
-            <div class="service-card" onclick="selectService('Samsung/Android FRP', 10)">
-                <h3 style="margin:0;">Android FRP</h3>
-                <p style="font-size: 11px; color: #aaa;">سامسونج، شاومي، هواوي</p>
-                <div style="color:gold;">10$</div>
-            </div>
-            <div class="service-card" onclick="selectService('iPhone iCloud/Unlock', 50)">
-                <h3 style="margin:0;">iPhone Service</h3>
-                <p style="font-size: 11px; color: #aaa;">iCloud & Network Unlock</p>
-                <div style="color:gold;">50$</div>
-            </div>
+            <div class="service-card" onclick="sel('Android FRP', 10, event)"><h3>FRP</h3><p>10$</p></div>
+            <div class="service-card" onclick="sel('iPhone Service', 50, event)"><h3>iPhone</h3><p>50$</p></div>
         </div>
-
-        <div class="imei-box">
-            <p style="margin-bottom: 8px;">أدخل رقم الـ IMEI أو السيريال (مهم جداً):</p>
-            <input type="text" id="imei-input" placeholder="0000000000000000" maxlength="15">
+        <input type="text" id="imei" placeholder="أدخل رقم الـ IMEI هنا">
+        <button class="btn-pay" id="btn" onclick="start()">🚀 ابدأ معالجة الجهاز الآن</button>
+        <div id="status-area">
+            <div id="msg" style="color:#0f0">جاري الاتصال بالسيرفر...</div>
+            <div class="bar"><div class="fill" id="fill"></div></div>
         </div>
-
-        <div id="payment-section">
-            <p id="selected-info" style="color: #fff; font-weight: bold;">يرجى اختيار خدمة أولاً</p>
-            <button class="btn-pay" onclick="proceedToPayment()">💳 ارفع رصيد  وابدأ المعالجة</button>
-        </div>
-
-        <p style="font-size: 11px; margin-top: 20px; color: #555;">
-            * بمجرد الدفع، يتم ربط رقم الـ IMEI بالخادم الملكي لبدء التخطي تلقائياً.
-        </p>
     </div>
-
     <script>
-        let selectedAmount = 0;
-        let selectedServiceName = "";
-
-        function selectService(name, price) {
-            selectedAmount = price;
-            selectedServiceName = name;
-            document.getElementById('selected-info').innerText = "الخدمة: " + name + " | السعر: " + price + "$";
-            
-            // تمييز الكارت المختار
-            document.querySelectorAll('.service-card').forEach(card => card.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+        let p = 0; let s = "";
+        function sel(n, pr, e) {
+            p = pr; s = n;
+            document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
+            e.currentTarget.classList.add('active');
         }
-
-        function proceedToPayment() {
-            const imei = document.getElementById('imei-input').value;
-            if (!selectedServiceName) {
-                alert("❌ يرجى اختيار نوع الخدمة أولاً (Android أو iPhone)");
-                return;
-            }
-            if (imei.length < 5) {
-                alert("❌ يرجى إدخال رقم IMEI صحيح");
-                return;
-            }
-            
-            // إرسال البيانات لـ PayPal الملك مع الـ IMEI في الرابط لتعرف لمن هذا الدفع
-            const paymentUrl = `https://paypal.me/hassan182/${selectedAmount}?locale.x=ar_EG&country.x=JO&note=IMEI:${imei}_Service:${selectedServiceName}`;
-            window.location.href = paymentUrl;
+        function start() {
+            const i = document.getElementById('imei').value;
+            if(!s || i.length < 5) { alert("اختر الخدمة وادخل IMEI"); return; }
+            document.getElementById('status-area').style.display = 'block';
+            document.getElementById('btn').style.display = 'none';
+            let w = 0;
+            const t = setInterval(() => {
+                w += 10; document.getElementById('fill').style.width = w + '%';
+                if(w == 100) {
+                    clearInterval(t);
+                    window.location.href = `https://paypal.me/hassan182/${p}?note=IMEI:${i}_Service:${s}`;
+                }
+            }, 500);
         }
     </script>
 </body>
