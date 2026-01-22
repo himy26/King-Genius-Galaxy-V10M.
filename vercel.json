@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/auth",
+      "destination": "/api/auth.js"
+    },
+    {
+      "source": "/tokens",
+      "destination": "/api/auth.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,OPTIONS" }
+      ]
+    }
+  ]
+}
