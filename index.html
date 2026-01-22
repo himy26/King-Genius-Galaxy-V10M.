@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAVENTI PRESTIGE |المهندس محمد حسن </title>
+    <title>LAVENTI PRESTIGE | المهندس محمد حسن </title>
     <style>
         :root { --gold: #ffd700; --dark: #050505; }
         body { background: var(--dark); color: var(--gold); font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; text-align: center; }
@@ -13,6 +13,10 @@
         .srv-item.active { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
         select, input { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; text-align: center; margin-bottom: 15px; outline: none; appearance: none; }
         .btn-main { background: linear-gradient(90deg, #ffd700, #b8860b); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.4s; }
+        
+        /* تصميم العداد التنازلي */
+        .timer-box { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff0000; color: #ff4444; padding: 10px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; font-weight: bold; }
+        
         #status { display: none; margin-top: 20px; }
         .bar { width: 100%; background: #222; height: 10px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
         .fill { width: 0%; height: 100%; background: var(--gold); transition: 0.4s; }
@@ -25,6 +29,8 @@
 <div class="royal-card">
     <h1 style="margin:0;">🔱 LAVENTI 🔱</h1>
     <p style="color: #666; font-size: 13px;">إدارة الملك محمد حسن</p>
+
+    <div class="timer-box" id="timer">⚠️ ينتهي عرض السعر الخاص خلال: 29:59</div>
 
     <div class="srv-grid">
         <div class="srv-item" onclick="sel('FRP Android', 10, this)"><b>FRP Unlocking</b><br>10$</div>
@@ -69,6 +75,16 @@
 <script>
     let srv = ""; let prc = 0;
     const PIN = "2026";
+
+    // كود العداد التنازلي
+    let timeLeft = 30 * 60; 
+    setInterval(() => {
+        if(timeLeft <= 0) return;
+        timeLeft--;
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        document.getElementById('timer').innerText = `⚠️ ينتهي عرض السعر الخاص خلال: ${mins}:${secs < 10 ? '0'+secs : secs}`;
+    }, 1000);
 
     function sel(n, p, e) {
         srv = n; prc = p;
