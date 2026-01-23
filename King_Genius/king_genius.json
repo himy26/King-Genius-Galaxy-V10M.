@@ -1,0 +1,95 @@
+import customtkinter as ctk
+import requests
+import threading
+from datetime import datetime
+
+# الرابط الملكي الجديد الذي يحتوي على الموديلات الضخمة
+DB_URL = "https://raw.githubusercontent.com/himy26/KingDB/main/king_genius.json"
+
+class KingGenius_Ultra(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("KING GENIUS 2026 | Professional Hardware Tool | Dev: Mohamed Hassan")
+        self.geometry("1200x800")
+        ctk.set_appearance_mode("dark")
+        
+        self.cloud_data = {}
+
+        # تصميم الواجهة الرئيسية
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        # القائمة الجانبية (Sidebar)
+        self.sidebar = ctk.CTkFrame(self, width=250, corner_radius=0, fg_color="#020617")
+        self.sidebar.grid(row=0, column=0, sticky="nsew")
+        
+        ctk.CTkLabel(self.sidebar, text="KING GENIUS", font=("Orbitron", 28, "bold"), text_color="#38bdf8").pack(pady=20)
+        ctk.CTkLabel(self.sidebar, text="Special for Ola ❤️", font=("Cairo", 14), text_color="#f472b6").pack(pady=5)
+
+        # أزرار الأقسام الجديدة (بناءً على القائمة الضخمة)
+        self.create_nav_btn("🔌 SAMSUNG EDL", lambda: self.load_module("samsung_edl"), "#2563eb")
+        self.create_nav_btn("🦊 XIAOMI MI ACCOUNT", lambda: self.load_module("xiaomi_edl"), "transparent")
+        self.create_nav_btn("⚙️ UNISOC / SPD", lambda: self.load_module("unisoc_spd"), "transparent")
+        self.create_nav_btn("📡 HUAWEI KIRIN", lambda: self.load_module("huawei_kirin"), "transparent")
+        self.create_nav_btn("📱 OPPO / VIVO EDL", lambda: self.load_module("oppo_vivo_edl"), "transparent")
+
+        # منطقة العمل واللوج
+        self.main_frame = ctk.CTkFrame(self, fg_color="#0f172a", corner_radius=15)
+        self.main_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+
+        self.content_area = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.content_area.pack(fill="both", expand=True, padx=20, pady=20)
+
+        self.log_box = ctk.CTkTextbox(self.main_frame, height=200, fg_color="#020617", text_color="#10b981", font=("Consolas", 12))
+        self.log_box.pack(fill="x", padx=20, pady=20)
+
+        self.sync_server()
+
+    def sync_server(self):
+        """مزامنة الموديلات الضخمة من السيرفر"""
+        def _task():
+            try:
+                self.log("🔗 Connecting to KingDB Cloud...")
+                res = requests.get(DB_URL, timeout=10)
+                if res.status_code == 200:
+                    self.cloud_data = res.json()
+                    ver = self.cloud_data.get("version", "N/A")
+                    self.log(f"✅ Sync Success: Version {ver} Loaded", "SUCCESS")
+                else: self.log("❌ Server Error: File not found on GitHub", "ERROR")
+            except Exception as e: self.log(f"⚠️ Offline: {str(e)}", "ERROR")
+        threading.Thread(target=_task, daemon=True).start()
+
+    def load_module(self, module_key):
+        """تحميل الموديلات داخل القوائم المنسدلة"""
+        for w in self.content_area.winfo_children(): w.destroy()
+        
+        title = module_key.replace("_", " ").upper()
+        ctk.CTkLabel(self.content_area, text=title, font=("Orbitron", 22, "bold"), text_color="#38bdf8").pack(pady=20)
+
+        # جلب القائمة من السيرفر
+        models_list = self.cloud_data.get("models", {}).get(module_key, ["No models in server"])
+        
+        self.model_selector = ctk.CTkComboBox(self.content_area, values=models_list, width=450, height=45, font=("Cairo", 13))
+        self.model_selector.pack(pady=10)
+
+        # أزرار العمليات الحقيقية
+        ops_frame = ctk.CTkFrame(self.content_area, fg_color="transparent")
+        ops_frame.pack(pady=20)
+
+        ctk.CTkButton(ops_frame, text="REMOVE FRP", fg_color="#dc2626", width=150, height=45).grid(row=0, column=0, padx=10)
+        ctk.CTkButton(ops_frame, text="FACTORY RESET", fg_color="#2563eb", width=150, height=45).grid(row=0, column=1, padx=10)
+        ctk.CTkButton(ops_frame, text="BOOTLOADER UNLOCK", fg_color="#10b981", width=150, height=45).grid(row=1, column=0, columnspan=2, pady=15, sticky="ew")
+
+    def log(self, msg, status="INFO"):
+        time_str = datetime.now().strftime("%H:%M:%S")
+        self.log_box.insert("end", f"[{time_str}] {msg}\n")
+        self.log_box.see("end")
+
+    def create_nav_btn(self, txt, cmd, color):
+        btn = ctk.CTkButton(self.sidebar, text=txt, command=cmd, fg_color=color, height=50, anchor="w", font=("Cairo", 12, "bold"))
+        btn.pack(fill="x", padx=15, pady=5)
+
+if __name__ == "__main__":
+    app = KingGenius_Ultra()
+    app.mainloop()

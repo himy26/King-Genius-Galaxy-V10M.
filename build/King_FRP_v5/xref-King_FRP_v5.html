@@ -1,0 +1,65 @@
+import customtkinter as ctk
+import subprocess
+import threading
+import time
+from datetime import datetime
+
+# إعداد المظهر
+ctk.set_appearance_mode("dark")
+
+class KingGenius_V11(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("KING GENIUS V11 | THE FINAL BEAST | Dedicated to OLA ❤️")
+        self.geometry("1200x800")
+        self.setup_ui()
+
+    def setup_ui(self):
+        # القائمة الجانبية
+        self.sidebar = ctk.CTkFrame(self, width=260, fg_color="#020617")
+        self.sidebar.pack(side="left", fill="y")
+        
+        ctk.CTkLabel(self.sidebar, text="KING GENIUS", font=("Orbitron", 30, "bold"), text_color="#38bdf8").pack(pady=30)
+        
+        # أزرار العمليات
+        self.create_btn("🔍 SCAN HARDWARE", self.scan_device, "#0ea5e9")
+        self.create_btn("🔓 FRP UNLOCK (ADB)", self.adb_frp, "transparent")
+        self.create_btn("⚡ FRP WIPE (FASTBOOT)", self.fastboot_frp, "transparent")
+
+        # واجهة العمل الرئيسية
+        self.main = ctk.CTkFrame(self, fg_color="#0f172a")
+        self.main.pack(side="right", fill="both", expand=True, padx=15, pady=15)
+
+        # تم حل مشكلة الـ height هنا بوضعها داخل تعريف الـ Textbox
+        self.log_view = ctk.CTkTextbox(self.main, font=("Consolas", 13), fg_color="#000000", text_color="#22c55e", height=400)
+        self.log_view.pack(side="bottom", fill="x", padx=15, pady=15)
+
+        self.status_lbl = ctk.CTkLabel(self.main, text="SYSTEM STATUS: READY", font=("Cairo", 22, "bold"))
+        self.status_lbl.pack(pady=40)
+
+        self.progress = ctk.CTkProgressBar(self.main, width=700, height=15)
+        self.progress.set(0)
+        self.progress.pack(pady=10)
+
+    def create_btn(self, txt, cmd, clr):
+        btn = ctk.CTkButton(self.sidebar, text=txt, command=cmd, fg_color=clr, height=50, anchor="w", font=("Cairo", 12, "bold"))
+        btn.pack(fill="x", padx=20, pady=5)
+
+    def log(self, msg, tag="INFO"):
+        now = datetime.now().strftime("%H:%M:%S")
+        self.log_view.insert("end", f"[{now}] [{tag}] {msg}\n")
+        self.log_view.see("end")
+
+    def scan_device(self):
+        self.log("📡 Searching for USB devices...", "SYSTEM")
+        threading.Thread(target=lambda: (time.sleep(1), self.log("✅ Device Port Ready.", "SUCCESS"))).start()
+
+    def adb_frp(self):
+        self.log("🚀 Starting ADB FRP Bypass...", "PROCESS")
+
+    def fastboot_frp(self):
+        self.log("⚡ Starting Fastboot Format...", "PROCESS")
+
+if __name__ == "__main__":
+    app = KingGenius_V11()
+    app.mainloop()

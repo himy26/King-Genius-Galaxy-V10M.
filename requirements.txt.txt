@@ -1,0 +1,6 @@
+customtkinter
+pyusb
+libusb-package
+pyserial
+requests
+pillow

@@ -1,0 +1,78 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+import requests
+import threading
+import time
+
+class LevantiInfinityOS:
+    def __init__(self, root):
+        self.root = root
+        # توثيق الملكية في عنوان البرنامج
+        self.root.title("LEVANTI INFINITY OS V.12 - ENG. MOHAMED HASSAN & OLA MATAWIE")
+        self.root.geometry("1100x750")
+        self.root.configure(bg="#1c1c1c") # واجهة احترافية غامقة
+        
+        # الرابط المباشر لملفك الصحيح (لقد تأكدت أنه king_server.json)
+        self.server_url = "https://raw.githubusercontent.com/himy26/KING-DATA/main/king_server.json"
+        self.db = {}
+
+        self.create_widgets()
+        self.fetch_data()
+
+    def create_widgets(self):
+        # العنوان العلوي وتوثيق الملكية
+        header = tk.Frame(self.root, bg="#002171", height=120)
+        header.pack(fill="x")
+        
+        tk.Label(header, text="LEVANTI INFINITY OS", font=("Orbitron", 35, "bold"), fg="white", bg="#002171").pack(pady=10)
+        tk.Label(header, text="Proprietary of Eng. Mohamed Hassan & Ola Matawie", font=("Arial", 12), fg="#bbdefb", bg="#002171").pack()
+
+        # إطار الأزرار (سيتم توليد SAMSUNG, VIVO, TECNO.. تلقائياً)
+        self.btn_frame = tk.Frame(self.root, bg="#1c1c1c")
+        self.btn_frame.pack(pady=30)
+
+        # جدول العمليات المتطور (FRP, IMEI, Bootloader)
+        self.tree = ttk.Treeview(self.root, columns=("Model", "CPU", "FRP", "IMEI", "Boot"), show='headings')
+        headings = {"Model": "Device Model", "CPU": "CPU / ID", "FRP": "FRP Lock", "IMEI": "IMEI Repair", "Boot": "Bootloader"}
+        
+        for col, head in headings.items():
+            self.tree.heading(col, text=head)
+            self.tree.column(col, width=190, anchor="center")
+            
+        self.tree.pack(fill="both", expand=True, padx=40, pady=20)
+
+    def fetch_data(self):
+        def load():
+            try:
+                # "السر هنا": إضافة توقيت عشوائي لإجبار السيرفر على التحديث الفوري
+                response = requests.get(f"{self.server_url}?update={time.time()}")
+                if response.status_code == 200:
+                    self.db = response.json().get("database", {})
+                    self.root.after(0, self.update_buttons)
+                else:
+                    self.root.after(0, lambda: messagebox.showerror("Error", "Server Connection Failure"))
+            except Exception as e:
+                self.root.after(0, lambda: messagebox.showerror("Fatal Error", str(e)))
+        
+        threading.Thread(target=load, daemon=True).start()
+
+    def update_buttons(self):
+        for widget in self.btn_frame.winfo_children():
+            widget.destroy()
+
+        # هذا السطر سيبحث في السيرفر ويظهر أي ماركة جديدة فوراً
+        for brand in self.db.keys():
+            btn = tk.Button(self.btn_frame, text=brand, font=("Arial", 11, "bold"), bg="#1e88e5", fg="white", 
+                           width=15, height=2, command=lambda b=brand: self.show_data(b))
+            btn.pack(side="left", padx=10)
+
+    def show_data(self, brand):
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        for m in self.db.get(brand, []):
+            self.tree.insert("", "end", values=(m.get('model'), m.get('id'), m.get('frp'), m.get('imei'), m.get('boot')))
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = LevantiInfinityOS(root)
+    root.mainloop()

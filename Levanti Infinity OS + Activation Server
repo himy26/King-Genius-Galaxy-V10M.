@@ -1,0 +1,93 @@
+import customtkinter as ctk
+from tkinter import messagebox
+import mysql.connector
+from flask import Flask, jsonify
+import threading
+import sys
+
+# --- إعداد سيرفر التفعيل (خداع الأدوات) ---
+server_app = Flask(__name__)
+
+@server_app.route('/api/v1/check/<serial>')
+def mock_activation(serial):
+    try:
+        conn = mysql.connector.connect(host="localhost", user="root", password="", database="levanti_db")
+        cursor = conn.cursor()
+        cursor.execute("SELECT status FROM serial_numbers WHERE serial_number = %s", (serial,))
+        result = cursor.fetchone()
+        conn.close()
+        
+        if result:
+            return jsonify({"status": "paid", "serial": serial, "server": "LEVANTI_PRO"})
+        return jsonify({"status": "unpaid", "message": "Register in Levanti Server"})
+    except:
+        return jsonify({"status": "error", "message": "Server Offline"})
+
+def run_server():
+    # تشغيل السيرفر على بورت 80 (بورت المواقع) ليتجاوز الحجب
+    try:
+        server_app.run(port=80, debug=False, use_reloader=False)
+    except Exception as e:
+        print(f"Error starting bypass server: {e}")
+
+# --- واجهة المشروع الملكية ---
+ctk.set_appearance_mode("Dark")
+
+class LevantiOS(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("LEVANTI INFINITY OS - V10M Bypass Edition 👑")
+        self.geometry("1000x600")
+
+        # Sidebar
+        self.sidebar = ctk.CTkFrame(self, width=200)
+        self.sidebar.pack(side="left", fill="y", padx=10, pady=10)
+        
+        ctk.CTkLabel(self.sidebar, text="LEVANTI SERVER", font=("Arial", 18, "bold"), text_color="gold").pack(pady=20)
+        
+        ctk.CTkButton(self.sidebar, text="Dashboard", command=self.main_view).pack(pady=10, padx=10)
+        ctk.CTkButton(self.sidebar, text="iPhone Bypass", command=self.apple_view).pack(pady=10, padx=10)
+
+        # Main Area
+        self.container = ctk.CTkFrame(self)
+        self.container.pack(side="right", fill="both", expand=True, padx=10, pady=10)
+        
+        self.main_view()
+
+    def main_view(self):
+        self.clear_frame()
+        ctk.CTkLabel(self.container, text="King Shadi Control Center 👑", font=("Arial", 22)).pack(pady=20)
+        ctk.CTkLabel(self.container, text="Bypass Server: ACTIVE ✅ (Port 80)", text_color="green").pack(pady=10)
+
+    def apple_view(self):
+        self.clear_frame()
+        ctk.CTkLabel(self.container, text="Apple Serial Registration", font=("Arial", 20)).pack(pady=20)
+        
+        self.sn_entry = ctk.CTkEntry(self.container, placeholder_text="Enter Serial (FCDT91QJHFYC)", width=350)
+        self.sn_entry.pack(pady=10)
+
+        ctk.CTkButton(self.container, text="Register in My Server 💎", fg_color="darkred", command=self.register_sn).pack(pady=10)
+
+    def register_sn(self):
+        sn = self.sn_entry.get().strip()
+        if sn:
+            try:
+                conn = mysql.connector.connect(host="localhost", user="root", password="", database="levanti_db")
+                cursor = conn.cursor()
+                cursor.execute("INSERT INTO serial_numbers (serial_number, status) VALUES (%s, %s)", (sn, 'Authorized'))
+                conn.commit()
+                conn.close()
+                messagebox.showinfo("Success", f"Serial {sn} Registered!\nActivation Server will now bypass the block.")
+            except:
+                messagebox.showerror("Error", "Serial already exists or DB error")
+
+    def clear_frame(self):
+        for widget in self.container.winfo_children():
+            widget.destroy()
+
+if __name__ == "__main__":
+    # تشغيل سيرفر التفعيل في "خلفية" البرنامج (Thread) ليعملان معاً
+    threading.Thread(target=run_server, daemon=True).start()
+    
+    app = LevantiOS()
+    app.mainloop()

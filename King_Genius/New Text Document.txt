@@ -1,0 +1,36 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# إعداد النافذة الرئيسية
+root = tk.Tk()
+root.title("LEVANTI INFINITY OS V.12 - King Genius Edition")
+root.geometry("600x400")
+root.configure(bg="#0f172a") 
+
+# دالة محاكاة الاتصال بالسيرفر
+def connect_to_server():
+    status_label.config(text="Status: CONNECTING...", fg="#fbbf24")
+    root.after(2000, lambda: status_label.config(text="Status: ONLINE (CLOUD CONNECTED)", fg="#22c55e"))
+    messagebox.showinfo("LEVANTI Cloud", "تم الاتصال بنجاح بسيرفر King Genius!")
+
+# واجهة البرنامج
+title_label = tk.Label(root, text="LEVANTI INFINITY V.12", font=("Courier", 24, "bold"), fg="#38bdf8", bg="#0f172a")
+title_label.pack(pady=20)
+
+status_label = tk.Label(root, text="Status: DISCONNECTED", font=("Arial", 10), fg="#ef4444", bg="#0f172a")
+status_label.pack()
+
+# منطقة الأزرار
+btn_frame = tk.Frame(root, bg="#0f172a")
+btn_frame.pack(pady=30)
+
+btn_connect = tk.Button(btn_frame, text="اتصال بالسيرفر", command=connect_to_server, width=20, bg="#1e293b", fg="white", font=("Arial", 12))
+btn_connect.grid(row=0, column=0, padx=10, pady=10)
+
+btn_models = tk.Button(btn_frame, text="قاعدة الموديلات", width=20, bg="#1e293b", fg="white", font=("Arial", 12))
+btn_models.grid(row=0, column=1, padx=10, pady=10)
+
+btn_unlock = tk.Button(btn_frame, text="Unlock Tools Console", width=20, bg="#ef4444", fg="white", font=("Arial", 12, "bold"))
+btn_unlock.grid(row=1, column=0, columnspan=2, pady=20)
+
+root.mainloop()
