@@ -1,7 +1,7 @@
-name: Laventi Royal Sync
+name: V10M Royal Dispatch Radar
 
 on:
-  workflow_dispatch: # للتشغيل اليدوي بأمر الملك
+  workflow_dispatch: # التشغيل اليدوي بأمر الملك
 
 jobs:
   build:
@@ -17,6 +17,6 @@ jobs:
 
       - name: Execute Royal Sender
         env:
-          # هنا تكمن قوة الربط بالخزنة
+          # هذا السطر هو الجسر بين الخزنة والكود
           ROYAL_APP_PASSWORD: ${{ secrets.ROYAL_APP_PASSWORD }}
         run: python royal_sender.py
