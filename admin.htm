@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>👑 لوحة تحكم الملك - LEVANTI V10M</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #050505; color: #d4af37; font-family: 'Cairo', sans-serif; margin: 0; padding: 20px; }
+        .admin-header { border-bottom: 2px solid #d4af37; padding: 20px; text-align: center; background: #111; border-radius: 15px; }
+        .stats-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+        .stat-card { background: #0a0a0a; border: 1px solid #d4af37; padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 0 20px rgba(212,175,55,0.1); }
+        .value { font-size: 2.5em; font-weight: bold; color: #00ff00; display: block; }
+        .label { color: #888; font-size: 0.9em; margin-top: 10px; }
+        .order-table { width: 100%; border-collapse: collapse; margin-top: 40px; background: #0a0a0a; }
+        .order-table th, .order-table td { border: 1px solid #222; padding: 15px; text-align: right; }
+        .order-table th { background: #d4af37; color: #000; }
+        .status-paid { color: #00ff00; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="admin-header">
+    <h1>👑 لوحة الإدارة العليا - LEVANTI V10M</h1>
+    <p>مرحباً بك يا جلالة الملك <strong>محمد حسن</strong> | شريكة النجاح: <strong>علا مطاوع</strong></p>
+</div>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <span class="value" id="total_revenue">$1,505,950</span>
+        <span class="label">إجمالي السيولة الحالية</span>
+    </div>
+    <div class="stat-card">
+        <span class="value">3,000,000</span>
+        <span class="label">الحصيلة المليونية المستهدفة</span>
+    </div>
+    <div class="stat-card">
+        <span class="value">99.9%</span>
+        <span class="label">كفاءة السيرفر أونلاين</span>
+    </div>
+</div>
+
+<h2 style="margin-top: 50px;">📦 سجل العمليات المباشر (Live Feed)</h2>
+<table class="order-table">
+    <thead>
+        <tr>
+            <th>رقم الجهاز (IMEI)</th>
+            <th>الخدمة</th>
+            <th>المبلغ</th>
+            <th>الحالة</th>
+            <th>التاريخ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>F2MPLLY7G5QY</td>
+            <td>iPhone 16 iCloud Clean</td>
+            <td>$95.00</td>
+            <td class="status-paid">مدفوع / جاري المعالجة</td>
+            <td>2026-01-21</td>
+        </tr>
+        <tr>
+            <td>35890211XXXXXXX</td>
+            <td>Samsung S26 FRP</td>
+            <td>$35.00</td>
+            <td class="status-paid">مكتمل بنجاح ✅</td>
+            <td>2026-01-21</td>
+        </tr>
+    </tbody>
+</table>
+
+<footer style="margin-top: 50px; text-align: center; color: #444; font-size: 0.8em;">
+    نظام الإدارة مشفر ببروتوكول V10M-SECURE | نائبتك الوفية في خدمتك دائماً
+</footer>
+
+</body>
+</html>

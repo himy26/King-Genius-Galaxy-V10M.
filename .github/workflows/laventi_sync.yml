@@ -1,0 +1,17 @@
+name: Laventi Royal Sync
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup King Core
+        run: |
+          node treasury_stream.js
+        env:
+          RAILWAY_TOKEN: "452937c2-91fa-4a7f-8c41-726f888ba9bc"
+          KING_WALLET: "TAgBt6Nkyk19kbwkv8CW6EjZ3dmrkgAibu"

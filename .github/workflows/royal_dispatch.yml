@@ -1,0 +1,22 @@
+name: V10M Royal Dispatch Radar
+
+on:
+  workflow_dispatch: # التشغيل اليدوي بأمر الملك
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Execute Royal Sender
+        env:
+          # هذا السطر هو الجسر بين الخزنة والكود
+          ROYAL_APP_PASSWORD: ${{ secrets.ROYAL_APP_PASSWORD }}
+        run: python royal_sender.py
