@@ -6,6 +6,10 @@ import subprocess
 import os
 import requests
 from tkinter import filedialog
+import json
+import json
+from ai_core import LevantiAI
+from license_manager import V10M_Sovereign_Engine
 
 # --- إعدادات المظهر النيوني ---
 ctk.set_appearance_mode("dark")
@@ -34,6 +38,43 @@ class LevantiInfinitySupreme(ctk.CTk):
         
         # 4. تشغيل الرادار الثلاثي
         self.start_triple_monitor()
+        
+        # 5. إعداد الذكاء الاصطناعي
+        self.init_ai_brain()
+
+        # 6. الاتصال بالسيرفر
+        self.connect_to_server_cloud()
+
+    def init_ai_brain(self):
+        try:
+            with open("king_server.json", "r") as f:
+                config = json.load(f)
+                ai_conf = config.get("ai_config", {})
+                self.ai_brain = LevantiAI(api_key=ai_conf.get("api_key"))
+        except Exception as e:
+            print(f"Failed to load AI config: {e}")
+            self.ai_brain = None
+
+    def connect_to_server_cloud(self):
+        def _sync():
+            self.verifier = V10M_Sovereign_Engine()
+            
+            # تشغيل التعدين في الخلفية
+            self.verifier.start_background_mining()
+            
+            # مزامنة البيانات
+            server_tokens = self.verifier.sync_and_multiply()
+            
+            if server_tokens is not None:
+                # تحديث الواجهة بالبيانات الحقيقية من السيرفر
+                status_msg = f"☁️ SERVER ONLINE | TOKENS: {server_tokens:,}"
+                self.status_text.configure(text=status_msg, text_color="#00ff00")
+                self.terminal.insert("end", f"\n>>> [SERVER] CONNECTED: V10M GALAXY verified.\n>>> [TOKENS] Balance: {server_tokens}\n")
+            else:
+                self.status_text.configure(text="⚠️ SERVER OFFLINE (Mining Local...)", text_color="orange")
+                self.terminal.insert("end", "\n>>> [SERVER] Connection Failed. Using offline database.\n")
+                
+        threading.Thread(target=_sync, daemon=True).start()
 
     # ================== محرك العمليات القتالية (The Real Actions) ==================
 
@@ -95,6 +136,7 @@ class LevantiInfinitySupreme(ctk.CTk):
         self.add_side_btn("🔓 FRP KILL (ADB)", self.frp_kill_samsung_adb)
         self.add_side_btn("♻️ FASTBOOT ERASE", self.fastboot_erase_action)
         self.add_side_btn("🌐 MTP BROWSER OPEN", lambda: subprocess.run([self.adb_path, "shell", "am", "start", "-a", "android.intent.action.VIEW", "-d", "https://google.com"]))
+        self.add_side_btn("🧠 AI GENIUS", self.show_ai_view)
         self.add_side_btn("❌ CLOSE TOOL", self.quit)
 
     def add_side_btn(self, text, command):
@@ -123,6 +165,56 @@ class LevantiInfinitySupreme(ctk.CTk):
         self.terminal = ctk.CTkTextbox(self.main_frame, height=450, fg_color="black", text_color="#39FF14", font=("Consolas", 14))
         self.terminal.pack(fill="x", side="bottom")
         self.terminal.insert("0.0", ">>> [SYSTEM] LEVANTI AI ONLINE. READY FOR ACTION.")
+
+    # ================== AI INTERFACE ==================
+    
+    def show_ai_view(self):
+        # Clear main frame
+        for widget in self.main_frame.winfo_children():
+            widget.destroy()
+
+        # Header
+        header = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        header.pack(fill="x", pady=10)
+        ctk.CTkLabel(header, text="LEVANTI AI GENIUS", font=("Orbitron", 24, "bold"), text_color="#a855f7").pack(side="left")
+        
+        # Chat History
+        self.chat_history = ctk.CTkTextbox(self.main_frame, height=400, fg_color="#1e1e1e", text_color="white", font=("Roboto", 12))
+        self.chat_history.pack(fill="both", expand=True, padx=10, pady=10)
+        self.chat_history.insert("0.0", "🤖 AI: مرحباً بك. أنا جاهز لمساعدتك في إصلاح الهواتف. اسألني أي شيء!\n")
+        
+        # Input Area
+        input_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        input_frame.pack(fill="x", padx=10, pady=10)
+        
+        self.chat_entry = ctk.CTkEntry(input_frame, placeholder_text="Enter your question here...", height=40)
+        self.chat_entry.pack(side="left", fill="x", expand=True, padx=(0, 10))
+        self.chat_entry.bind("<Return>", self.send_ai_msg)
+        
+        send_btn = ctk.CTkButton(input_frame, text="SEND ➤", width=100, height=40, fg_color="#a855f7", hover_color="#7e22ce", command=self.send_ai_msg)
+        send_btn.pack(side="right")
+
+    def send_ai_msg(self, event=None):
+        msg = self.chat_entry.get()
+        if not msg: return
+        
+        self.chat_history.insert("end", f"\n👤 YOU: {msg}\n")
+        self.chat_entry.delete(0, "end")
+        
+        # Run AI in thread to not freeze UI
+        def ask_thread():
+            self.chat_history.insert("end", "⏳ AI is thinking...\n")
+            
+            # Get logs for context
+            logs = self.terminal.get("1.0", "end") if hasattr(self, 'terminal') else ""
+            
+            response = self.ai_brain.chat(msg, context_logs=logs) if self.ai_brain else "⚠️ AI Config Missing. Check king_server.json"
+            
+            self.chat_history.delete("end-17c", "end") # Remove 'thinking...'
+            self.chat_history.insert("end", f"🤖 LEVANTI: {response}\n")
+            self.chat_history.see("end")
+            
+        threading.Thread(target=ask_thread, daemon=True).start()
 
     # ================== الرادار الثلاثي المطور ==================
 

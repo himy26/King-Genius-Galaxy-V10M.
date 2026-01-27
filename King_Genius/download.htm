@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAVENTI PRESTIGE | المهندس محمد حسن </title>
+    <style>
+        :root { --gold: #ffd700; --dark: #050505; }
+        body { background: var(--dark); color: var(--gold); font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; text-align: center; overflow-x: hidden; }
+        .royal-card { background: #0a0a0a; border: 2px solid #1a1a1a; padding: 30px; border-radius: 30px; width: 100%; max-width: 500px; box-shadow: 0 0 50px rgba(255, 215, 0, 0.1); position: relative; z-index: 1; }
+        .srv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .srv-item { background: #111; border: 1px solid #333; padding: 15px; border-radius: 15px; cursor: pointer; transition: 0.3s; }
+        .srv-item.active { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
+        select, input { width: 100%; background: #111; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 12px; font-size: 16px; text-align: center; margin-bottom: 15px; outline: none; appearance: none; }
+        .btn-main { background: linear-gradient(90deg, #ffd700, #b8860b); color: #000; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.4s; }
+        
+        .timer-box { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff0000; color: #ff4444; padding: 10px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; font-weight: bold; }
+        
+        /* تصميم النافذة المنبثقة للمصداقية */
+        #notification-box { position: fixed; bottom: 20px; right: -300px; background: #111; border: 1px solid var(--gold); color: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; transition: 0.8s ease; z-index: 9999; font-size: 12px; text-align: right; }
+        .notif-icon { background: var(--gold); color: #000; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        #status { display: none; margin-top: 20px; }
+        .bar { width: 100%; background: #222; height: 10px; border-radius: 10px; overflow: hidden; margin: 10px 0; }
+        .fill { width: 0%; height: 100%; background: var(--gold); transition: 0.4s; }
+        .king-lock { margin-top: 30px; border-top: 1px solid #1a1a1a; padding-top: 15px; }
+        .btn-king { background: transparent; color: #222; border: 1px dashed #222; padding: 8px; font-size: 11px; cursor: pointer; width: 100%; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+<div id="notification-box">
+    <div class="notif-icon">✓</div>
+    <div>
+        <b style="color: var(--gold);">تم بنجاح!</b><br>
+        <span id="notif-text">فتح جهاز Samsung S24 Ultra لعميل من السعودية</span>
+    </div>
+</div>
+
+<div class="royal-card">
+    <h1 style="margin:0;">🔱 LAVENTI 🔱</h1>
+    <p style="color: #666; font-size: 13px;">إدارة المهندس محمد حسن</p>
+
+    <div class="timer-box" id="timer">⚠️ ينتهي عرض السعر الخاص خلال: 29:59</div>
+
+    <div class="srv-grid">
+        <div class="srv-item" onclick="sel('FRP Android', 10, this)"><b>FRP Unlocking</b><br>10$</div>
+        <div class="srv-item" onclick="sel('iPhone Service', 50, this)"><b>iPhone Services</b><br>50$</div>
+    </div>
+
+    <select id="model-list">
+        <option value="">-- اختر موديل الجهاز --</option>
+        <option value="S24 Ultra/S24+">Samsung S24 Ultra / S24+</option>
+        <option value="S23 Ultra/S23">Samsung S23 Series</option>
+        <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+        <option value="iPhone 14/13">iPhone 13 / 14 Series</option>
+        <option value="A54/A34/A14">Samsung A-Series</option>
+        <option value="Xiaomi/Redmi">Xiaomi / Redmi</option>
+    </select>
+
+    <input type="text" id="imei" placeholder="أدخل رقم الـ IMEI (15 رقم)" maxlength="15">
+    
+    <button class="btn-main" id="pay-btn" onclick="go(false)">بدء الربط والسحب 🚀</button>
+
+    <div id="status">
+        <div id="msg" style="color:#0f0; font-size: 14px;">📡 جارٍ الاتصال بسيرفر V10M...</div>
+        <div class="bar"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <div class="king-lock">
+        <button class="btn-king" onclick="go(true)">🔱 تفعيل ملكي (PIN Required)</button>
+    </div>
+</div>
+
+<script>
+    let srv = ""; let prc = 0;
+    const PIN = "2026";
+
+    // كود العداد التنازلي
+    let timeLeft = 30 * 60; 
+    setInterval(() => {
+        if(timeLeft <= 0) return;
+        timeLeft--;
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        document.getElementById('timer').innerText = `⚠️ ينتهي عرض السعر الخاص خلال: ${mins}:${secs < 10 ? '0'+secs : secs}`;
+    }, 1000);
+
+    // كود نافذة المصداقية التلقائية
+    const messages = [
+        "فتح جهاز Samsung S24 Ultra لعميل من السعودية",
+        "تخطي حساب Google لآيفون 13 لعميل من مصر",
+        "تفعيل سيرفر V10M لجهاز Redmi Note 13",
+        "تم فك شفرة شبكة لآيفون 15 Pro Max بنجاح",
+        "فتح حماية Knox لعميل من الإمارات"
+    ];
+
+    function showNotification() {
+        const box = document.getElementById('notification-box');
+        const text = document.getElementById('notif-text');
+        text.innerText = messages[Math.floor(Math.random() * messages.length)];
+        box.style.right = "20px";
+        setTimeout(() => { box.style.right = "-350px"; }, 5000);
+    }
+    setTimeout(showNotification, 3000); // تظهر أول مرة بعد 3 ثواني
+    setInterval(showNotification, 15000); // تتكرر كل 15 ثانية
+
+    function sel(n, p, e) {
+        srv = n; prc = p;
+        document.querySelectorAll('.srv-item').forEach(i => i.classList.remove('active'));
+        e.classList.add('active');
+    }
+
+    function go(isKing) {
+        const imei = document.getElementById('imei').value;
+        const model = document.getElementById('model-list').value;
+        if (!srv || imei.length < 5 || !model) { alert("⚠️ يرجى اختيار الخدمة والموديل وإدخال الـ IMEI"); return; }
+        if (isKing && prompt("أدخل الرمز الملكي:") !== PIN) { alert("❌ خطأ!"); return; }
+
+        document.getElementById('status').style.display = 'block';
+        document.getElementById('pay-btn').style.display = 'none';
+
+        let w = 0;
+        const t = setInterval(() => {
+            w += 10; document.getElementById('fill').style.width = w + '%';
+            if (w >= 100) {
+                clearInterval(t);
+                if (isKing) {
+                    alert("✨ تم التفعيل المجاني لـ " + model);
+                    location.reload();
+                } else {
+                    window.location.href = `https://paypal.me/hassan182/${prc}?note=Model:${model}_IMEI:${imei}`;
+                }
+            }
+        }, 400);
+    }
+</script>
+</body>
+</html>

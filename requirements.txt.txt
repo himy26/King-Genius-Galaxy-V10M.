@@ -4,3 +4,4 @@ libusb-package
 pyserial
 requests
 pillow
+google-generativeai
