@@ -37,6 +37,12 @@ app.get('/', (req, res) => {
     res.send('👑 King Genius Galaxy V10M Server is Running');
 });
 
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
-});
+// Export for Vercel
+module.exports = app;
+
+// Only listen if not in production (local testing)
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 Server running on port ${PORT}`);
+    });
+}
